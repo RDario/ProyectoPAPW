@@ -4,6 +4,8 @@
     Author     : Dario
 --%>
 
+<%@page import="clasesConexion.Consultas "%>
+<%@page import="clasesConexion.ConexionDataBase"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,27 +20,12 @@
         <%
             String nickname = request.getParameter("nombreusuario");
             String pass = request.getParameter("contrasenia");
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_papw", "root", "");
-                String consulta = "SELECT * FROM usuario WHERE nicknameUsuario = ? AND contraseniaUsuario = ?";
-                PreparedStatement preparedStatement = connection.prepareStatement(consulta);
-                preparedStatement.setString(1, nickname);
-                preparedStatement.setString(2, pass);
-                ResultSet rs = preparedStatement.executeQuery();
-                if (rs != null) {
-                    if (rs.next()) {
-
-                    } else {
-                        out.println("CONEXION-------no-ejecuto-query-----> " + rs);
-                        connection.close();
-                    }
-                } else {
-                    out.println("CONEXION-------resut-null-----> " + rs);
-                    connection.close();
-                }
-            } catch (Exception e) {
-                out.println("CONEXION-----------Error-exception---> " + e);
+            ConexionDataBase conexionDataBase = new ConexionDataBase();
+            boolean isExisteUsuario = Consultas.autenticarUsuario(nickname, pass);
+            if (isExisteUsuario) {
+                out.println("CONEXION-------existe-Usuario-----------> ");
+            } else {
+                out.println("CONEXION------No-existe-Usuario-----------> ");
             }
         %>
     </body>
