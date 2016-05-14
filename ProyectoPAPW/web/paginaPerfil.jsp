@@ -4,6 +4,8 @@
     Author     : Dario
 --%>
 
+<%@page import="java.util.LinkedList"%>
+<%@page import="clasesConexion.Consultas"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -16,6 +18,11 @@
         <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
     </head>
     <body>
+        <%
+            LinkedList listaUsuario = Consultas.obtenerDatosUsuario("root", "123");
+            out.println(listaUsuario.size());
+            out.println(listaUsuario.getFirst());
+        %>
         <div id="wrapper">
             <div id="header">
                 <div id="logo">
@@ -58,9 +65,7 @@
                                         <div id="contenedorDatosPersonales">
                                             <img src="images/Logo.jpg" width="143" height="143" alt="" class="alignleft border" />
                                             <input name="nickname" type="text" id="lblNickname" placeholder="Miklovish" autofocus="" required=""></p>
-
                                                 <input name="nombreusuario" type="text" id="lblUsuario" placeholder="Dario Valdes" autofocus="" required=""></p>
-
                                                     <input name="email" type="text" id="lblemail" placeholder="ruben_miklo@hotmail.com" required=""></p>
                                                         </div>
 

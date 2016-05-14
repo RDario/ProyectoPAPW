@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modelos.ModelUsuario;
 
 public class Consultas extends ConexionDataBase {
 
@@ -52,19 +53,31 @@ public class Consultas extends ConexionDataBase {
         return false;
     }
 
-    public static LinkedList<String> obtenerDatosUsuario(String usuario, String contrasenia) {
-        LinkedList<String> datos = new LinkedList<>();
+    public static LinkedList<ModelUsuario> obtenerDatosUsuario(String usuario, String contrasenia) {
+        LinkedList<ModelUsuario> datos = new LinkedList<>();
+        ConexionDataBase conexionDataBase = new ConexionDataBase();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        String consulta = "SELECT * FROM usuario WHERE nicknameUsuario = ? AND contraseniaUsuario = ?";
+        String consulta = "SELECT nicknameUsuario, nombreUsuario, apellidosUsuario, emailUsuario, contraseniaUsuario, fechaNacimientoUsuario, generoUsuario, domicilioCalle, domicilioEstado, domicilioMunicipio, domicilioCodigoPostal FROM usuario WHERE nicknameUsuario = ? AND contraseniaUsuario = ?";
         try {
             preparedStatement = getConnection().prepareStatement(consulta);
             preparedStatement.setString(1, usuario);
             preparedStatement.setString(2, contrasenia);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                datos.add(resultSet.getString(2));
-                datos.add(resultSet.getString(3));
+                System.out.println("Entro aqui-----hay-row---------------> ");
+                datos.add(new ModelUsuario(
+                        resultSet.getString("nicknameUsuario"), 
+                        resultSet.getString("nombreUsuario"), 
+                        resultSet.getString("apellidosUsuario"), 
+                        resultSet.getString("emailUsuario"), 
+                        resultSet.getString("contraseniaUsuario"), 
+                        resultSet.getString("fechaNacimientoUsuario"), 
+                        resultSet.getString("generoUsuario"), 
+                        resultSet.getString("domicilioCalle"), 
+                        resultSet.getString("domicilioEstado"), 
+                        resultSet.getString("domicilioMunicipio"), 
+                        resultSet.getString("domicilioCodigoPostal")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Consultas.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,8 +85,12 @@ public class Consultas extends ConexionDataBase {
             if (getConnection() != null) {
                 try {
                     getConnection().close();
-                    preparedStatement.close();
-                    resultSet.close();
+                    if (preparedStatement != null) {
+                        preparedStatement.close();
+                    }
+                    if (resultSet != null) {
+                        resultSet.close();
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(Consultas.class.getName()).log(Level.SEVERE, null, ex);
                 }
