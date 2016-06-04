@@ -1,5 +1,5 @@
 <%-- 
-    Document   : paginaLogin
+    Document   : pantallaLogin
     Created on : 22/04/2016, 02:19:40 PM
     Author     : Dario
 --%>
@@ -20,8 +20,8 @@
                 </div>
 
                 <div id="miPerfil">
-                    <a href="paginaLogin.jsp"> Iniciar sesión </a>
-                    <a href="paginaCrearCuenta.jsp"> Crear Cuenta </a>
+                    <a href="login.html"> Iniciar sesión </a>
+                    <a href="crearCuenta.html"> Crear Cuenta </a>
                     <a href="pagCarritoDeCompras.html"> Mi Carrito </a>
                 </div>
 
@@ -55,7 +55,7 @@
                                 </div>
 
                                 <div id="contenedorDatosPersonales">
-                                    <form name="login" method="POST" action="servletPrueba">
+                                    <form name="login" method="POST" action="Conexion.jsp">
                                         <p><label><br>Correo<br></label>
                                             <input name="nombreusuario" type="text" id="lblNickname" placeholder="Nickname" autofocus=""></p>
 
